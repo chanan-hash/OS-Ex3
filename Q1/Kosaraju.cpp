@@ -32,7 +32,7 @@ void DFS_First(vector<vector<int>> &graph, int node, stack<int> &stack, vector<b
  * This is the second DFS visit. We will visit the nodes in the reverse order of the first DFS visit.
  * That will give us the strongly connected components.
  */
-void DFS_Second_Reversed(vector<vector<int>> &graph, int node, vector<bool> &visited, vector<int>& component)
+void DFS_Second_Reversed(const vector<vector<int>> &graph, int node, vector<bool> &visited, vector<int>& component)
 {
     visited[node] = true;
     component.push_back(node);
@@ -106,7 +106,9 @@ int main()
     }
 
     vector<vector<int>> strongly_connected_components = kosaraju_sharir(vertices, edges);
-
+ 
+    cout << "The strongly connected components are: " << endl;
+ 
     for (vector<int> component : strongly_connected_components)
     {
         for (int node : component)
