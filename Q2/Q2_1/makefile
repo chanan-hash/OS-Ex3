@@ -7,10 +7,10 @@ OBJS = $(SOURCES:.cpp=.o)
 
 TARGET = kosaraju
 
-all: $(TARGET) run
+all: $(TARGET) #run
 
-run: $(TARGET)
-	for file in *.txt; do \
+#run: $(TARGET)
+#	for file in *.txt; do \
 		echo "Running $$file"; \
 		./$(TARGET) < $$file || true; \
 	done
