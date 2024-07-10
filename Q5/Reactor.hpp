@@ -21,7 +21,7 @@ typedef void *(*reactorFunc)(int fd);
 
 // Forward declaration of the reactor structure.
 // typedef struct reactor;
-typedef struct reactor
+class reactor
 {
     // Maps file descriptors to their corresponding event handlers.
     unordered_map<int, reactorFunc> handlers;
@@ -32,20 +32,21 @@ typedef struct reactor
     // Indicates whether the reactor is currently running.
     bool isRunning;
 
+public:
     // Constructor initializes the reactor to a non-running state.
     reactor() : isRunning(false) {}
+
+    // Starts a new reactor and returns a pointer to it.
+    void *startReactor();
+
+    // Adds a file descriptor to the Reactor for reading; returns 0 on success.
+    int addFdToReactor(int fd, reactorFunc func);
+
+    // Removes a file descriptor from the Reactor.
+    int removeFdFromReactor(int fd);
+
+    // Stops the reactor and cleans up resources.
+    int stopReactor();
 };
-
-// Starts a new reactor and returns a pointer to it.
-void *startReactor();
-
-// Adds a file descriptor to the Reactor for reading; returns 0 on success.
-int addFdToReactor(void *reactor, int fd, reactorFunc func);
-
-// Removes a file descriptor from the Reactor.
-int removeFdFromReactor(void *reactor, int fd);
-
-// Stops the reactor and cleans up resources.
-int stopReactor(void *reactor);
 
 #endif // REACTOR_HPP
