@@ -1,0 +1,14 @@
+==25492== Memcheck, a memory error detector
+==25492== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==25492== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==25492== Command: ./Euler_circle -v 10 -e 15 -s 42
+==25492== 
+graph is not Eulerian
+==25492== 
+==25492== HEAP SUMMARY:
+==25492==     in use at exit: 0 bytes in 0 blocks
+==25492==   total heap usage: 35 allocs, 35 frees, 78,299 bytes allocated
+==25492== 
+==25492== All heap blocks were freed -- no leaks are possible
+==25492== 
+==25492== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
