@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-std=c++11 -Werror -g -pg -fprofile-arcs -ftest-coverage
+CXXFLAGS=-std=c++11 -Werror -g -fprofile-arcs -ftest-coverage #-pg
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 # -pg and gmon file, allocating memory and can cause a memory leak
 SOURCES=EulerCircle.cpp

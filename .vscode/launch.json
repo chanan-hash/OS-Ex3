@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/chanan/Desktop/OS-Ex3",
-      "program": "/home/chanan/Desktop/OS-Ex3/build/Debug/outDebug",
+      "cwd": "/home/chanan/Desktop/OS-Ex3/OS-Ex4/q5_6",
+      "program": "/home/chanan/Desktop/OS-Ex3/OS-Ex4/q5_6/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
