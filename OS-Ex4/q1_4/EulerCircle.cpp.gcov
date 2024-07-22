@@ -1,0 +1,229 @@
+        -:    0:Source:EulerCircle.cpp
+        -:    0:Graph:EulerCircle.gcno
+        -:    0:Data:EulerCircle.gcda
+        -:    0:Runs:1
+        -:    1:// A C++ program to check if a given graph is Eulerian or not
+        -:    2:#include <iostream>
+        -:    3:#include <vector>
+        -:    4:#include <cstdlib>
+        -:    5:#include <cstdio>
+        -:    6:#include <ctime>
+        -:    7:#include <unistd.h> // For getopt
+        -:    8:#include <list>
+        -:    9:#include <iterator>
+        -:   10:#include <algorithm>
+        -:   11:
+        -:   12:using namespace std;
+        -:   13:
+        -:   14:// A class that represents an undirected graph
+        -:   15:class Graph
+        -:   16:{
+        -:   17:    int V;          // No. of vertices
+        -:   18:    list<int> *adj; // A dynamic array of adjacency lists
+        -:   19:public:
+        -:   20:    // Constructor and destructor
+        1:   21:    Graph(int V)
+        1:   22:    {
+        1:   23:        this->V = V;
+      11*:   24:        adj = new list<int>[V];
+        1:   25:    }
+       11:   26:    ~Graph() { delete[] adj; } // To avoid memory leak
+        -:   27:
+        -:   28:    // function to add an edge to graph
+        -:   29:    void addEdge(int v, int w);
+        -:   30:
+        -:   31:    // Method to check if this graph is Eulerian or not
+        -:   32:    int isEulerian();
+        -:   33:
+        -:   34:    // Method to check if all non-zero degree vertices are connected
+        -:   35:    bool isConnected();
+        -:   36:
+        -:   37:    // Function to do DFS starting from v. Used in isConnected();
+        -:   38:    void DFSUtil(int v, bool visited[]);
+        -:   39:
+        1:   40:    void getAdjList()
+        -:   41:    {
+       11:   42:        for (int i = 0; i < V; i++)
+        -:   43:        {
+       10:   44:            cout << "Adjacency list of vertex " << i << endl;
+       10:   45:            cout << "head";
+       70:   46:            for (auto x : adj[i])
+       60:   47:                cout << " -> " << x;
+       10:   48:            cout << endl;
+        -:   49:        }
+        1:   50:    }
+        -:   51:};
+        -:   52:
+       30:   53:void Graph::addEdge(int v, int w)
+        -:   54:{
+       30:   55:    adj[v].push_back(w);
+       30:   56:    adj[w].push_back(v); // Note: the graph is undirected
+       30:   57:}
+        -:   58:
+       10:   59:void Graph::DFSUtil(int v, bool visited[])
+        -:   60:{
+        -:   61:    // Mark the current node as visited and print it
+       10:   62:    visited[v] = true;
+        -:   63:
+        -:   64:    // Recur for all the vertices adjacent to this vertex
+       10:   65:    list<int>::iterator i;
+       70:   66:    for (i = adj[v].begin(); i != adj[v].end(); ++i)
+       60:   67:        if (!visited[*i])
+        9:   68:            DFSUtil(*i, visited);
+       10:   69:}
+        -:   70:
+        -:   71:// Method to check if all non-zero degree vertices are connected.
+        -:   72:// It mainly does DFS traversal starting from
+        1:   73:bool Graph::isConnected()
+        -:   74:{
+        -:   75:    // Mark all the vertices as not visited
+        1:   76:    bool visited[V];
+        -:   77:    int i;
+       11:   78:    for (i = 0; i < V; i++)
+       10:   79:        visited[i] = false;
+        -:   80:
+        -:   81:    // Find a vertex with non-zero degree
+       1*:   82:    for (i = 0; i < V; i++)
+        1:   83:        if (adj[i].size() != 0)
+        1:   84:            break;
+        -:   85:
+        -:   86:    // If there are no edges in the graph, return true
+        1:   87:    if (i == V)
+    #####:   88:        return true;
+        -:   89:
+        -:   90:    // Start DFS traversal from a vertex with non-zero degree
+        1:   91:    DFSUtil(i, visited);
+        -:   92:
+        -:   93:    // Check if all non-zero degree vertices are visited
+       11:   94:    for (i = 0; i < V; i++)
+      10*:   95:        if (visited[i] == false && adj[i].size() > 0)
+    #####:   96:            return false;
+        -:   97:
+        2:   98:    return true;
+        -:   99:}
+        -:  100:
+        -:  101:/* The function returns one of the following values
+        -:  102:0 --> If graph is not Eulerian
+        -:  103:1 --> If graph has an Euler path (Semi-Eulerian)
+        -:  104:2 --> If graph has an Euler Circuit (Eulerian) */
+        1:  105:int Graph::isEulerian()
+        -:  106:{
+        -:  107:    // Check if all non-zero degree vertices are connected
+        1:  108:    if (isConnected() == false)
+    #####:  109:        return 0;
+        -:  110:
+        -:  111:    // Count vertices with odd degree
+        1:  112:    int odd = 0;
+       11:  113:    for (int i = 0; i < V; i++)
+       10:  114:        if (adj[i].size() & 1)
+        4:  115:            odd++;
+        -:  116:
+        -:  117:    // If count is more than 2, then graph is not Eulerian
+        1:  118:    if (odd > 2)
+        1:  119:        return 0;
+        -:  120:
+        -:  121:    // If odd count is 2, then semi-eulerian.
+        -:  122:    // If odd count is 0, then eulerian
+        -:  123:    // Note that odd count can never be 1 for undirected graph
+    #####:  124:    return (odd) ? 1 : 2;
+        -:  125:}
+        -:  126:
+        -:  127:// Function to run test cases
+        1:  128:void test(Graph &g)
+        -:  129:{
+        1:  130:    int res = g.isEulerian();
+        1:  131:    if (res == 0)
+        1:  132:        cout << "graph is not Eulerian\n";
+    #####:  133:    else if (res == 1)
+    #####:  134:        cout << "graph has a Euler path\n";
+        -:  135:    else
+    #####:  136:        cout << "graph has a Euler cycle\n";
+        1:  137:}
+        -:  138:
+        -:  139:// Driver program to test above function
+        1:  140:int main(int argc, char *argv[])
+        -:  141:{
+        -:  142:    // Let us create and test graphs shown in above figures
+        -:  143:    // Graph g1(5);
+        -:  144:    // g1.addEdge(1, 0);
+        -:  145:    // g1.addEdge(0, 2);
+        -:  146:    // g1.addEdge(2, 1);
+        -:  147:    // g1.addEdge(0, 3);
+        -:  148:    // g1.addEdge(3, 4);
+        -:  149:    // test(g1);
+        -:  150:
+        -:  151:    // Graph g2(5);
+        -:  152:    // g2.addEdge(1, 0);
+        -:  153:    // g2.addEdge(0, 2);
+        -:  154:    // g2.addEdge(2, 1);
+        -:  155:    // g2.addEdge(0, 3);
+        -:  156:    // g2.addEdge(3, 4);
+        -:  157:    // g2.addEdge(4, 0);
+        -:  158:    // test(g2);
+        -:  159:
+        -:  160:    // Graph g3(5);
+        -:  161:    // g3.addEdge(1, 0);
+        -:  162:    // g3.addEdge(0, 2);
+        -:  163:    // g3.addEdge(2, 1);
+        -:  164:    // g3.addEdge(0, 3);
+        -:  165:    // g3.addEdge(3, 4);
+        -:  166:    // g3.addEdge(1, 3);
+        -:  167:    // test(g3);
+        -:  168:
+        -:  169:    // // Let us create a graph with 3 vertices
+        -:  170:    // // connected in the form of cycle
+        -:  171:    // Graph g4(3);
+        -:  172:    // g4.addEdge(0, 1);
+        -:  173:    // g4.addEdge(1, 2);
+        -:  174:    // g4.addEdge(2, 0);
+        -:  175:    // test(g4);
+        -:  176:
+        -:  177:    // // Let us create a graph with all vertices
+        -:  178:    // // with zero degree
+        -:  179:    // Graph g5(3);
+        -:  180:    // test(g5);
+        1:  181:    int V = 0, E = 0, seed = time(nullptr);
+        -:  182:    int opt;
+        -:  183:
+        -:  184:    // Parse command-line options
+        4:  185:    while ((opt = getopt(argc, argv, "v:e:s:")) != -1)
+        -:  186:    {
+        3:  187:        switch (opt)
+        -:  188:        {
+        1:  189:        case 'v':
+        1:  190:            V = std::atoi(optarg);
+        1:  191:            break;
+        1:  192:        case 'e':
+        1:  193:            E = std::atoi(optarg);
+        1:  194:            break;
+        1:  195:        case 's':
+        1:  196:            seed = std::atoi(optarg);
+        1:  197:            break;
+    #####:  198:        default: /* '?' */
+    #####:  199:            std::cerr << "Usage: " << argv[0] << " -v num_vertices -e num_edges -s seed\n";
+    #####:  200:            exit(EXIT_FAILURE);
+        -:  201:        }
+        -:  202:    }
+        -:  203:
+        -:  204:    // Seed the random number generator
+        1:  205:    srand(seed);
+        -:  206:
+        -:  207:    // Generate the graph
+        1:  208:    Graph g(V);
+        -:  209:
+        1:  210:    cout << "Before loop. V: " << V << ", E: " << E << endl;
+       31:  211:    for (int i = 0; i < E; ++i)
+        -:  212:    {
+       30:  213:        int u = rand() % V;
+       30:  214:        int v = rand() % V;
+       30:  215:        cout << "Adding edge " << u << " " << v << endl; // Using endl to flush the output
+       30:  216:        g.addEdge(u, v);
+        -:  217:    }
+        -:  218:
+        1:  219:    cout << "After loop V: " << V << ", E:" << E << endl;
+        1:  220:    g.getAdjList();
+        -:  221:
+        1:  222:    test(g);
+        -:  223:
+        1:  224:    return 0;
+        -:  225:}
