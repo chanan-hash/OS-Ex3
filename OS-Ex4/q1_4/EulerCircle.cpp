@@ -6,6 +6,9 @@
 #include <ctime>
 #include <unistd.h> // For getopt
 #include <list>
+#include <iterator>
+#include <algorithm>
+
 using namespace std;
 
 // A class that represents an undirected graph
@@ -33,6 +36,18 @@ public:
 
     // Function to do DFS starting from v. Used in isConnected();
     void DFSUtil(int v, bool visited[]);
+
+    void getAdjList()
+    {
+        for (int i = 0; i < V; i++)
+        {
+            cout << "Adjacency list of vertex " << i << endl;
+            cout << "head";
+            for (auto x : adj[i])
+                cout << " -> " << x;
+            cout << endl;
+        }
+    }
 };
 
 void Graph::addEdge(int v, int w)
@@ -192,13 +207,17 @@ int main(int argc, char *argv[])
     // Generate the graph
     Graph g(V);
 
-    // Add E random edges
+    cout << "Before loop. V: " << V << ", E: " << E << endl;
     for (int i = 0; i < E; ++i)
     {
         int u = rand() % V;
         int v = rand() % V;
+        cout << "Adding edge " << u << " " << v << endl; // Using endl to flush the output
         g.addEdge(u, v);
     }
+
+    cout << "After loop V: " << V << ", E:" << E << endl;
+    g.getAdjList();
 
     test(g);
 
