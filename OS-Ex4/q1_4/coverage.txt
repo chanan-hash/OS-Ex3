@@ -1,0 +1,43 @@
+File 'EulerCircle.cpp'
+Lines executed:98.82% of 85
+Creating 'EulerCircle.cpp.gcov'
+
+File '/usr/include/c++/9/iostream'
+No executable lines
+Removing 'iostream.gcov'
+
+File '/usr/include/c++/9/ext/new_allocator.h'
+Lines executed:93.33% of 15
+Creating 'new_allocator.h.gcov'
+
+File '/usr/include/c++/9/bits/move.h'
+Lines executed:100.00% of 4
+Creating 'move.h.gcov'
+
+File '/usr/include/c++/9/bits/alloc_traits.h'
+Lines executed:100.00% of 8
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/9/bits/allocated_ptr.h'
+Lines executed:90.00% of 10
+Creating 'allocated_ptr.h.gcov'
+
+File '/usr/include/c++/9/bits/stl_list.h'
+Lines executed:100.00% of 56
+Creating 'stl_list.h.gcov'
+
+File '/usr/include/c++/9/ext/aligned_buffer.h'
+Lines executed:100.00% of 4
+Creating 'aligned_buffer.h.gcov'
+
+File '/usr/include/c++/9/bits/list.tcc'
+Lines executed:100.00% of 9
+Creating 'list.tcc.gcov'
+
+File '/usr/include/c++/9/bits/allocator.h'
+Lines executed:100.00% of 2
+Creating 'allocator.h.gcov'
+
+File '/usr/include/c++/9/new'
+Lines executed:100.00% of 2
+Creating 'new.gcov
