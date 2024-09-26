@@ -35,6 +35,11 @@ void ::Proactor::stopProactor()
     mtx.unlock();
 }
 
+mutex &::Proactor::get_lock()
+{
+    return mtx;
+}
+
 ::Proactor::~Proactor()
 {
     stopProactor();

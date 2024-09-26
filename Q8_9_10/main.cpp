@@ -352,13 +352,13 @@ int main()
     int listener_fd = get_listener_fd();
     Proactor proactor;
 
-    // For Q10 Kosaraju thread
+    // For Q10 Kosaraju thread, need to put the detach and the line before in a comment
 
     // create a theread that will print the status of the kosaraju (just when the condition variable is notified)
-    // thread kosaraju_thread(kosaraju_status, ref(proactor.get_lock()));
-    thread kosaraju_thread(kosaraju_status, ref(mtx));
-
-    kosaraju_thread.detach();
+    thread kosaraju_thread(kosaraju_status, ref(proactor.get_lock()));
+ 
+    // thread kosaraju_thread(kosaraju_status, ref(mtx));
+    // kosaraju_thread.detach();
 
     proactor.startProactor(listener_fd, bind(client_handler, placeholders::_1, ref(mtx)));
     return 0;

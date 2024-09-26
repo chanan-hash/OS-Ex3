@@ -33,5 +33,6 @@ class Proactor
     public:
         void startProactor(int sockfd, proactorFunc func);
         void stopProactor();
+        mutex &get_lock();
         ~Proactor();
 };
